@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>用户管理</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/userManager.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/userManager.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <form th:action="@{/user/find_user}" method="post" onsubmit="return checkForm();">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="msg">查询用户</td>
+        </tr>
+        <tr class="table-info">
+          <td>用户类别</td>
+          <td>
+            <select id="rdType" name="rdType" >
+              <option value="" th:selected="!${rdType}">请选择</option>
+              <option th:each="type : ${userTypesList}"
+                      th:text="${type.rdTypeName}"
+                      th:value="${type.rdType}"
+                      th:selected="${type.rdType}==${rdType}"
+              ></option>
+            </select>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>借阅证号</td>
+          <td><input type="text" id="rdID" name="rdID" th:value="${rdID}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>所在单位</td>
+          <td><input type="text" id="rdDept" name="rdDept" th:value="${rdDept}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>姓名</td>
+          <td><input type="text" id="rdName" name="rdName" th:value="${rdName}" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><button>查询此人</button></td>
+        </tr>
+      </table>
+    </form>
+    <table cellspacing="0" class="list" th:if="${readersList}">
+      <tr>
+        <td colspan="4">查询结果</td>
+      </tr>
+      <tr>
+        <td>借书证号</td>
+        <td>所在单位</td>
+        <td>读者姓名</td>
+        <td>操作</td>
+      </tr>
+      <tr th:each="reader: ${readersList}">
+        <td th:text="${reader.rdID}"></td>
+        <td th:text="${reader.rdDept}"></td>
+        <td th:text="${reader.rdName}"></td>
+        <td>
+          <span><a th:href="@{/reader/reader_detail.html?rd_id=}+${reader.rdID}">查看详情</a></span>
+          <span><a th:href="@{/user/reset_password?rd_id=}+${reader.rdID}">重置密码</a></span>
+        </td>
+      </tr>
+    </table>
+
+    <form>
+      <table cellspacing="0" class="twoColumn, list">
+        <tr>
+          <td colspan="5">用户类型管理</td>
+        </tr>
+        <tr class="table-info">
+          <td>读者类别</td>
+          <td>可借书数量</td>
+          <td>可借阅天数</td>
+          <td>罚款率(元/天)</td>
+          <td>操作</td>
+        </tr>
+        <tr th:each="type : ${userTypesList}" class="table-info">
+          <td th:text="${type.rdTypeName}"></td>
+          <td th:text="${type.canLendQty}"></td>
+          <td th:text="${type.canLendDay}"></td>
+          <td th:text="${type.punishRate}"></td>
+          <td>
+            <a th:href="@{/reader_type/rd_type_detail.html?rd_type=}+${type.rdType}">查看详情</a>
+            <a th:href="@{/reader_type/delete_rd_type?rd_type=}+${type.rdType}">删除</a>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5"><a th:href="@{/reader_type/add_rd_type.html}">添加用户类型</a></td>
+        </tr>
+      </table>
+    </form>
+
+  </div>
+</div>
+</body>
+</html>

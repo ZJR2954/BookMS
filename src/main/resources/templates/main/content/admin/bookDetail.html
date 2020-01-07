@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>借阅证详情</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/bookDetail.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/bookDetail.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <form th:if="${book} != null" th:action="@{/book/update_book}" method="post" onsubmit="return checkForm();" enctype="multipart/form-data">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="msg">图书详情</td>
+        </tr>
+        <tr class="table-info">
+          <td>图书ID</td>
+          <td>
+            <label th:text="${book.bkID}"></label>
+            <input type="hidden" name="bkID" th:value="${book.bkID}" readonly="readonly" />
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>图书分类号</td>
+          <td>
+            <select name="bkCatalog" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}">
+              <option value="TP" th:selected="${book.bkCatalog}=='TP'">TP:自动化技术、计算机技术</option>
+              <option value="TP3" th:selected="${book.bkCatalog}=='TP3'">TP3:计算技术、计算机技术</option>
+              <option value="TP31" th:selected="${book.bkCatalog}=='TP31'">TP31:计算机软件</option>
+              <option value="TP311" th:selected="${book.bkCatalog}=='TP311'">TP311:程序设计、软件工程</option>
+              <option value="TP312" th:selected="${book.bkCatalog}=='TP312'">TP312:程序语言、算法语言</option>
+              <option value="TP311.13" th:selected="${book.bkCatalog}=='TP311.13'">TP311.13:数据库理论与系统</option>
+              <option value="TP311.131" th:selected="${book.bkCatalog}=='TP311.131'">TP311.131:数据库理论</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>书名</td>
+          <td><label th:text="${book.bkName}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>作者</td>
+          <td><label th:text="${book.bkAuthor}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>出版社</td>
+          <td><label th:text="${book.bkPress}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>图书编号</td>
+          <td><input type="text" th:value="${book.bkCode}" name="bkCode" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>出版日期</td>
+          <td>
+            <label id="bkDatePress" th:text="${book.bkDatePress}"></label>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>ISBN书号</td>
+          <td><input type="text" th:value="${book.bkISBN}" name="bkISBN" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>语言</td>
+          <td>
+            <select name="bkLanguage" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}" >
+              <option value="0" th:selected="${book.bkLanguage}==0">0:中文</option>
+              <option value="1" th:selected="${book.bkLanguage}==1">1:英文</option>
+              <option value="2" th:selected="${book.bkLanguage}==2">2:日文</option>
+              <option value="3" th:selected="${book.bkLanguage}==3">3:俄文</option>
+              <option value="4" th:selected="${book.bkLanguage}==4">4:德文</option>
+              <option value="5" th:selected="${book.bkLanguage}==5">5:法文</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>页数</td>
+          <td><input type="text" th:value="${book.bkPages}" name="bkPages" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>价格</td>
+          <td><input type="text" th:value="${book.bkPrice}" name="bkPrice" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>入馆日期</td>
+          <td>
+            <label id="bkDateIn" th:text="${book.bkDateIn}"></label>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>内容简介</td>
+          <td>
+            <textarea th:text="${book.bkBrief}" name="bkBrief" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}" ></textarea>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>图书封面</td>
+          <td>
+            <img th:src="@{/book/bk_cover?bk_id=}+${book.bkID}" onerror="this.style.display='none'" />
+            <input th:if="${#strings.contains(session.user.rdAdminRoles, '8')}" type="file" name="bkCov" />
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>图书状态</td>
+          <td>
+            <select name="bkStatus" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}" >
+              <option value="在馆" th:selected="${book.bkStatus}=='在馆'">在馆</option>
+              <option value="借出" th:selected="${book.bkStatus}=='借出'">借出</option>
+              <option value="遗失" th:selected="${book.bkStatus}=='遗失'">遗失</option>
+              <option value="变卖" th:selected="${book.bkStatus}=='变卖'">变卖</option>
+              <option value="销毁" th:selected="${book.bkStatus}=='销毁'">销毁</option>
+            </select>
+          </td>
+        </tr>
+        <tr th:if="${#strings.contains(session.user.rdAdminRoles, '8')}">
+          <td colspan="2"><button>提交修改</button></td>
+        </tr>
+      </table>
+    </form>
+    <div th:if="${book} == null">未查询到结果！</div>
+  </div>
+</div>
+</body>
+</html>

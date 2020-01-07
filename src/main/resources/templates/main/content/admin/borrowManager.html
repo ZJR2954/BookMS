@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>借阅管理</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/borrowManager.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/borrowManager.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <form th:action="@{/borrow/find_reader_by_rd_id}" method="post" onsubmit="return checkReaderForm();">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="rdMsg">查询读者</td>
+        </tr>
+        <tr class="table-info">
+          <td>借阅证号</td>
+          <td><input type="text" id="rdID" name="rdID" th:value="${rdID}" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><button>查询此人</button></td>
+        </tr>
+      </table>
+    </form>
+    <table cellspacing="0" class="list">
+      <tr class="caption">
+        <td colspan="5">查询结果</td>
+      </tr>
+      <tr class="caption">
+        <td>借书证号</td>
+        <td>所在单位</td>
+        <td>读者姓名</td>
+        <td>借阅证状态</td>
+        <td>操作</td>
+      </tr>
+      <tr th:if="${reader}" class="caption">
+        <td th:text="${reader.rdID}"></td>
+        <td th:text="${reader.rdDept}"></td>
+        <td th:text="${reader.rdName}"></td>
+        <td th:text="${reader.rdStatus}"></td>
+        <td><a th:href="@{/borrow/rd_borrow_detail.html?rd_id=}+${reader.rdID}">借阅情况</a></td>
+      </tr>
+      <tr th:if="!${reader}" class="caption">
+        <td colspan="5">无查询结果！</td>
+      </tr>
+    </table>
+    <form th:action="@{/borrow/find_book_by_bk_id}" method="post" onsubmit="return checkBookForm();">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="bkMsg">查询图书</td>
+          <input type="hidden" name="rdID" th:value="${rdID}" readonly="readonly"/>
+        </tr>
+        <tr class="table-info">
+          <td>图书ID</td>
+          <td><input type="text" id="bkID" name="bkID" th:value="${bkID}" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><button>查询图书</button></td>
+        </tr>
+      </table>
+    </form>
+    <table cellspacing="0" class="list">
+      <tr class="caption">
+        <td colspan="6">查询结果</td>
+      </tr>
+      <tr class="caption">
+        <td>图书ID</td>
+        <td>封面</td>
+        <td>书名</td>
+        <td>作者</td>
+        <td>状态</td>
+        <td>操作</td>
+      </tr>
+      <tr th:if="${book} and ${reader}">
+        <td th:text="${book.bkID}"></td>
+        <td>
+          <img th:src="@{/book/bk_cover?bk_id=}+${book.bkID}" onerror="this.style.display='none'" />
+        </td>
+        <td th:text="${book.bkName}"></td>
+        <td th:text="${book.bkAuthor}"></td>
+        <td th:text="${book.bkStatus}"></td>
+        <td>
+          <span th:if="${book.bkStatus}=='在馆' and ${rdCanBorrow}">
+            <a th:href="@{/borrow/borrow_book(rd_id=${reader.rdID}, bk_id=${book.bkID})}">借阅</a>
+          </span>
+          <span th:if="!(${book.bkStatus}=='在馆' and ${rdCanBorrow})">不满足借阅条件</span>
+        </td>
+      </tr>
+      <tr class="caption" th:if="!${book}">
+        <td colspan="6">无查询结果！</td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

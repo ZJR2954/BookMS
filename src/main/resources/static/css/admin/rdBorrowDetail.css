@@ -1,0 +1,23 @@
+.main .content .list td {
+    border: 1px solid #000000;
+}
+.main .content .list td:nth-child(2) {
+    width: 15%;
+}
+
+.main .content .list .caption {
+    height: 30px;
+}
+
+.main .content .list tr {
+    height: 75px;
+}
+
+.main .content .list img {
+    height: 70px;
+    vertical-align: bottom;
+}
+
+.main .content .list td a {
+    margin: auto 5px;
+}

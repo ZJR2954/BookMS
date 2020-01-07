@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>main</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${session.msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">Welcome!</div>
+</div>
+</body>
+</html>

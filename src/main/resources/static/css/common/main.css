@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.main {
+    display: flex;
+}
+
+.main .content {
+    flex: 1;
+    padding: 3px;
+    height: calc(100vh - 66px - 6px);
+    text-align: center;
+    overflow: auto;
+}
+
+.main .content form {
+    margin: 1px 0;
+}
+
+.main .content table {
+    width: 100%;
+    margin: auto;
+    border: 1px solid #000000;
+}
+
+.main .content .twoColumn .table-info td:nth-child(1) {
+    width: 50%;
+    padding-right: 20px;
+    text-align: right;
+}
+.main .content .twoColumn .table-info td:nth-child(2) {
+    text-align: left;
+}
+.main .content table [colspan] {
+    text-align: center;
+}

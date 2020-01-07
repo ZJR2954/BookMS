@@ -1,0 +1,63 @@
+body {
+  background: url("../../img/login_bg.jpg") no-repeat;
+  background-size: 100% 100vh;
+}
+.login-info {
+    width: 100%;
+    margin-top: 80px;
+    opacity:0.7;
+  }
+  .login-info table {
+    width: 35%;
+    min-width: 300px;
+    margin:auto;
+    border:2px solid;
+    padding:0px 6% 10px 4%;
+    background-color: #fff;
+    text-align: center;
+    border-radius:1em;
+  }
+  .login-info table caption {
+    margin-bottom: 4px;
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 10px;
+  }
+  .login-info table tr {
+    height: 40px;
+  }
+  .login-info .table-msg {
+    height: 20px;
+    font-size: 12px;
+    vertical-align: bottom;
+    color: #ff5777;
+  }
+  .login-info table .table-info td:nth-child(1) {
+    width: 35%;
+    text-align: right;
+  }
+  .login-info table .table-info td:nth-child(2) {
+    font-size: 14px;
+    text-align: left;
+  }
+  .login-info table input {
+    width: 100%;
+  }
+  .login-info .table-other {
+    text-align: right;
+    vertical-align: top;
+    height: 30px;
+  }
+  .login-info .table-other span{
+    font-size: 12px;
+  }
+  .login-info a:hover {
+    color: #ff5777;
+  }
+  .login-info table [colspan] {
+    text-align: center;
+  }
+  .login-info table .table-image input {
+  	width: 30px;
+  	height: 30px;
+  }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title></title>
+</head>
+<body>
+  <div th:fragment="leftBar(user)" class="left-tab-bar">
+    <div th:if="${#strings.contains(user.rdAdminRoles, '8')}" id="readerManager" class="left-tab-item" onclick="leftBarItemClicked(this, '/reader/reader_manager.html');">读者管理</div>
+    <div th:if="${#strings.contains(user.rdAdminRoles, '1')}" id="bookManager" class="left-tab-item" onclick="leftBarItemClicked(this, '/book/book_manager.html');">
+      <span th:if="${#strings.contains(user.rdAdminRoles, '8')}">图书管理</span>
+      <span th:if="!${#strings.contains(user.rdAdminRoles, '8')}">图书列表</span>
+    </div>
+    <div th:if="${#strings.contains(user.rdAdminRoles, '8')}" id="borrowManager" class="left-tab-item" onclick="leftBarItemClicked(this, '/borrow/borrow_manager.html');">借阅管理</div>
+    <div th:if="${#strings.contains(user.rdAdminRoles, '8')}" id="userManager" class="left-tab-item" onclick="leftBarItemClicked(this, '/user/user_manager.html');">用户管理</div>
+    <div th:if="${#strings.contains(user.rdAdminRoles, '1')}" id="profile" class="left-tab-item" onclick="leftBarItemClicked(this, '/user/profile.html');">个人信息</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>读者借阅详情</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/rdBorrowDetail.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/rdBorrowDetail.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <table cellspacing="0" class="list">
+      <tr class="caption">
+        <td colspan="6">未归还图书列表</td>
+      </tr>
+      <tr class="caption">
+        <td>借书证号</td>
+        <td>图书ID</td>
+        <td>图书封面</td>
+        <td>借书日期</td>
+        <td>应还日期</td>
+        <td>操作</td>
+      </tr>
+      <tr th:each="borrow: ${borrowsList}">
+        <td th:text="${borrow.rdID}"></td>
+        <td th:text="${borrow.bkID}"></td>
+        <td>
+          <img th:src="@{/book/bk_cover?bk_id=}+${borrow.bkID}" onerror="this.style.display='none'" />
+        </td>
+        <td>
+          <label name="IdDateOut" th:text="${borrow.IdDateOut}"></label>
+        </td>
+        <td>
+          <label name="IdDateRetPlan" th:text="${borrow.IdDateRetPlan}"></label>
+        </td>
+        <td>
+          <a th:href="@{/borrow/borrow_detail.html?borrow_id=}+${borrow.borrowID}">查看详情</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title></title>
+</head>
+<body>
+<div th:fragment="topBar(userType, username, msg)" class="top-tab-bar">
+  <div class="left">
+    <img th:src="@{/img/logo.png}" />
+  </div>
+  <div class="center">
+    <div th:utext="'用户身份：' + ${userType} + '&lt;br/&gt;' + '用户姓名：' + ${username}"
+         class="top-center-left"></div>
+    <div th:text="${msg}"
+         class="top-center-right"></div>
+  </div>
+  <div class="right">
+    <span><a href="#">意见反馈</a></span>|
+    <span><a href="#">帮助中心</a></span>|
+    <span><a th:href="@{/logout}">退出</a></span>
+  </div>
+</div>
+</body>
+</html>

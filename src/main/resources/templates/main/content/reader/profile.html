@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>个人信息</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/reader/profile.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/reader/profile.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <table cellspacing="0" class="list">
+      <tr>
+        <td>借书证号</td>
+        <td>所在单位</td>
+        <td>读者姓名</td>
+        <td>操作</td>
+      </tr>
+      <tr>
+        <td th:text="${session.user.rdID}"></td>
+        <td th:text="${session.user.rdDept}"></td>
+        <td th:text="${session.user.rdName}"></td>
+        <td>
+          <span><a th:href="@{/reader/reader_detail.html?rd_id=}+${session.user.rdID}">查看详情</a></span>
+          <span><a th:href="@{/user/update_password.html?rd_id=}+${session.user.rdID}">修改密码</a></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>借阅证详情</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/readerDetail.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/readerDetail.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <form th:if="${reader} != null" th:action="@{/reader/update_reader}" method="post" onsubmit="return checkForm();" enctype="multipart/form-data">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="msg">读者详情</td>
+        </tr>
+        <tr class="table-info">
+          <td>借书证号</td>
+          <td>
+            <label th:text="${reader.rdID}"></label>
+            <input type="hidden" name="rdID" th:value="${reader.rdID}" readonly="readonly" />
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>办证日期</td>
+          <td>
+            <label id="rdDateReg" th:text="${reader.rdDateReg}"></label>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>读者类别</td>
+          <td>
+            <select id="rdType" name="rdType" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}">
+              <option th:each="userType : ${userTypesList}"
+                      th:text="${userType.rdTypeName}"
+                      th:value="${userType.rdType}"
+                      th:selected="${userType.rdType}==${reader.rdType}"></option>
+            </select>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>所在单位</td>
+          <td><input type="text" id="rdDept" name="rdDept" th:value="${reader.rdDept}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>读者姓名</td>
+          <td><input type="text" id="rdName" name="rdName" th:value="${reader.rdName}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>性别</td>
+          <td>
+            <label><input type="radio" name="rdSex" value="男" th:checked="${reader.rdSex}=='男'"/>男</label>
+            <label><input type="radio" name="rdSex" value="女" th:checked="${reader.rdSex}=='女'"/>女</label>
+          </td>
+        </tr>
+        <tr class="table-info">
+        <td>读者电话</td>
+        <td><input type="text" id="rdPhone" name="rdPhone" th:value="${reader.rdPhone}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>读者邮箱</td>
+          <td><input type="text" id="rdEmail" name="rdEmail" th:value="${reader.rdEmail}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>借阅证状态</td>
+          <td>
+            <select id="rdStatus" name="rdStatus" th:disabled="!${#strings.contains(session.user.rdAdminRoles, '8')}">
+              <option value="有效" th:selected="${reader.rdStatus}=='有效'">有效</option>
+              <option value="挂失" th:selected="${reader.rdStatus}=='挂失'">挂失</option>
+              <option value="注销" th:selected="${reader.rdStatus}=='注销'">注销</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>借阅证图片</td>
+          <td>
+            <img th:src="@{/reader/rd_photo?rd_id=}+${reader.rdID}" onerror="this.style.display='none'" />
+            <input type="file" id="rdPhoto" name="rdPho" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"><button>提交修改</button></td>
+        </tr>
+      </table>
+    </form>
+    <div th:if="${reader} == null">未查询到结果！</div>
+  </div>
+</div>
+</body>
+</html>

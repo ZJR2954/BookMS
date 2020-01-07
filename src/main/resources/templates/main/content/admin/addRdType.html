@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>添加读者类型</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/addRdType.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/addRdType.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <form th:action="@{/reader_type/add_rd_type}" method="post" onsubmit="return checkForm();">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="msg">添加读者类型</td>
+        </tr>
+        <tr class="table-info">
+          <td>读者类型名</td>
+          <td><input id="rdTypeName" name="rdTypeName" th:value="${rdTypeName}"/></td>
+        </tr>
+        <tr class="table-info">
+          <td>可借书数量</td>
+          <td><input type="text" id="canLendQty" name="canLendQty" th:value="${canLendQty}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>可借阅天数</td>
+          <td><input type="text" id="canLendDay" name="canLendDay" th:value="${canLendDay}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>可续借次数</td>
+          <td><input type="text" id="canContinueTimes" name="canContinueTimes" th:value="${canContinueTimes}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>罚款率（元/天）</td>
+          <td><input type="text" id="punishRate" name="punishRate" th:value="${punishRate}" /></td>
+        </tr>
+        <tr class="table-info">
+        <td>证书有效期（年）</td>
+        <td><input type="text" id="dateValid" name="dateValid" th:value="${dateValid}" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><button>提交</button></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+</body>
+</html>

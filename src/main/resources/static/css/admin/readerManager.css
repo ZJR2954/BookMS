@@ -1,0 +1,8 @@
+.main .content .list tr:hover {
+    background-color: #b3c4d7;
+}
+
+.main .content .list td {
+    border: 1px solid #000000;
+}
+

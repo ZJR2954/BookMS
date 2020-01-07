@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>读者类型详情</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/rdTypeDetail.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/rdTypeDetail.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <form th:if="${rdType} != null" th:action="@{/reader_type/update_rd_type}" method="post" onsubmit="return checkForm();">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="msg">读者类型详情</td>
+        </tr>
+        <tr class="table-info">
+          <td>读者类型号</td>
+          <td>
+            <label th:text="${rdType.rdType}"></label>
+            <input type="hidden" id="rdType" name="rd_type" th:value="${rdType.rdType}" readonly="readonly" />
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>读者类型名</td>
+          <td>
+            <label th:text="${rdType.rdTypeName}"></label>
+            <input type="hidden" id="rdTypeName" name="rdTypeName" th:value="${rdType.rdTypeName}" readonly="readonly" />
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>可借书数量</td>
+          <td><input type="text" id="canLendQty" name="canLendQty" th:value="${rdType.canLendQty}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>可借阅天数</td>
+          <td><input type="text" id="canLendDay" name="canLendDay" th:value="${rdType.canLendDay}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>可续借次数</td>
+          <td><input type="text" id="canContinueTimes" name="canContinueTimes" th:value="${rdType.canContinueTimes}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>罚款率（元/天）</td>
+          <td><input type="text" id="punishRate" name="punishRate" th:value="${rdType.punishRate}" /></td>
+        </tr>
+        <tr class="table-info">
+        <td>证书有效期（年）</td>
+        <td><input type="text" id="dateValid" name="dateValid" th:value="${rdType.dateValid}" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><button>提交修改</button></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>登录</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/login/login.css}" />
+  <script type="text/javascript" th:src="@{/js/login/login.js}" />
+</head>
+<body>
+<div class="login-info">
+  <form th:action="@{/login}" method="post" onsubmit="return checkForm();">
+    <table>
+      <caption>登录</caption>
+      <tr class="table-msg">
+        <td colspan="2" id="msg" name="msg" th:text="${msg}"></td>
+      </tr>
+      <tr class="table-info">
+        <td>账号：</td>
+        <td><input type="text" placeholder="请输入借书证号" id="username" name="username" /></td>
+      </tr>
+      <tr class="table-info">
+        <td>密码：</td>
+        <td><input type="password" placeholder="请输入密码" id="password" name="password" /></td>
+      </tr>
+      <tr class="table-other">
+        <td></td>
+        <td>
+          <span><a href="#">忘了密码？</a> </span>
+        </td>
+      </tr>
+      <tr class="table-image">
+        <td colspan="2">
+          <input type="image" th:src="@{/img/login.png}" />
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+</body>
+</html>

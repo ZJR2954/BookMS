@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>借阅详情</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/borrowDetail.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/borrowDetail.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <form th:action="@{/borrow/return_book}">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="reMsg">借阅详情</td>
+        </tr>
+        <tr class="table-info">
+          <td>借书顺序号</td>
+          <td>
+            <label th:text="${borrow.borrowID}"></label>
+            <input type="hidden" th:value="${borrow.borrowID}" name="borrowID" readonly="readonly"/>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>读者姓名</td>
+          <td>
+            <label th:text="${rdName}"></label>
+            <input type="hidden" th:value="${borrow.rdID}" name="rdID" readonly="readonly"/>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>图书ID</td>
+          <td>
+            <label th:text="${borrow.bkID}"></label>
+            <input type="hidden" th:value="${borrow.bkID}" name="bkID" readonly="readonly"/>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>书名</td>
+          <td><label th:text="${book.bkName}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>图书封面</td>
+          <td><img th:src="@{/book/bk_cover?bk_id=}+${book.bkID}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>作者</td>
+          <td><label th:text="${book.bkAuthor}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>出版社</td>
+          <td><label th:text="${book.bkPress}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>价格</td>
+          <td><label th:text="${book.bkPrice}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>续借次数</td>
+          <td><label th:text="${borrow.IdContinueTimes}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>借书日期</td>
+          <td><label id="IdDateOut" th:text="${borrow.IdDateOut}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>应还日期</td>
+          <td><label id="IdDateRetPlan" th:text="${borrow.IdDateRetPlan}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>实际还书日期</td>
+          <td><label id="IdDateRetAct" th:text="${borrow.IdDateRetAct}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>过期天数</td>
+          <td><label th:text="${borrow.IdOverDay}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>应罚款金额</td>
+          <td><label th:text="${borrow.IdOverMoney}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>罚款金额</td>
+          <td>
+            <input type="text" th:value="${borrow.IdPunishMoney}" name="idPunishMoney" />
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>是否已经还书</td>
+          <td><label th:text="${borrow.IsHasReturn}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>借书操作员ID</td>
+          <td><label th:text="${borrow.OperatorLend}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td>还书操作员ID</td>
+          <td><label th:text="${borrow.OperatorRet}"></label></td>
+        </tr>
+        <tr class="table-info">
+          <td><button>归还</button></td>
+          <td><a th:href="@{/borrow/continue_borrow?borrow_id=}+${borrow.borrowID}">续借</a></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>添加图书</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/main.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/topBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/common/leftBar.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin/addBook.css}" />
+
+  <script type="text/javascript" th:src="@{/js/common/main.js}" />
+  <script type="text/javascript" th:src="@{/js/admin/addBook.js}" />
+</head>
+<body>
+<div th:replace="/main/common/topBar::topBar(${session.userType}, ${session.user.rdName}, ${session.msg})"></div>
+<div class="main">
+  <div th:replace="/main/common/leftBar::leftBar(${session.user})"></div>
+  <div class="content">
+    <form th:action="@{/book/add_find}" method="post" onsubmit="return checkForm();">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="msg">查询图书</td>
+        </tr>
+        <tr class="table-info">
+          <td>图书分类号</td>
+          <td>
+            <select name="bkCatalog" >
+              <option value="TP" th:selected="${bkCatalog}=='TP'">TP:自动化技术、计算机技术</option>
+              <option value="TP3" th:selected="${bkCatalog}=='TP3'">TP3:计算技术、计算机技术</option>
+              <option value="TP31" th:selected="${bkCatalog}=='TP31'">TP31:计算机软件</option>
+              <option value="TP311" th:selected="${bkCatalog}=='TP311'">TP311:程序设计、软件工程</option>
+              <option value="TP312" th:selected="${bkCatalog}=='TP312'">TP312:程序语言、算法语言</option>
+              <option value="TP311.13" th:selected="${bkCatalog}=='TP311.13'">TP311.13:数据库理论与系统</option>
+              <option value="TP311.131" th:selected="${bkCatalog}=='TP311.131'">TP311.131:数据库理论</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>书名</td>
+          <td><input type="text" id="bkName" name="bkName" th:value="${bkName}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>作者</td>
+          <td><input type="text" id="bkAuthor" name="bkAuthor" th:value="${bkAuthor}" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>出版社</td>
+          <td><input type="text" id="bkPress" name="bkPress" th:value="${bkPress}" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><button>查询图书</button></td>
+        </tr>
+      </table>
+    </form>
+
+    <table th:if="${findResult}" class="list">
+      <tr class="caption">
+        <td>图书ID</td>
+        <td>封面</td>
+        <td>书名</td>
+        <td>作者</td>
+        <td>出版社</td>
+        <td>状态</td>
+      </tr>
+      <tr th:each="book: ${findResult}">
+        <td th:text="${book.bkID}"></td>
+        <td>
+          <img th:src="@{/book/bk_cover?bk_id=}+${book.bkID}" onerror="this.style.display='none'" />
+        </td>
+        <td th:text="${book.bkName}"></td>
+        <td th:text="${book.bkAuthor}"></td>
+        <td th:text="${book.bkPress}"></td>
+        <td th:text="${book.bkStatus}"></td>
+      </tr>
+      <tr th:if="${#lists.size(findResult)} == 0" class="caption">
+        <td colspan="6">未查询到结果！</td>
+      </tr>
+    </table>
+
+    <form th:action="@{/book/add_book}" method="post" onsubmit="return checkReForm();" enctype="multipart/form-data">
+      <table class="twoColumn">
+        <tr>
+          <td colspan="2" id="reMsg">完善信息</td>
+        </tr>
+        <tr class="table-info">
+          <td>图书分类号</td>
+          <td>
+            <select id="reBkCatalog" name="bkCatalog" >
+              <option th:text="${bkCatalog}" th:value="${bkCatalog}" selected="selected"></option>
+            </select>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>书名</td>
+          <td><input type="text" id="reBkName" name="bkName" th:value="${bkName}" readonly="readonly" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>作者</td>
+          <td><input type="text" id="reBkAuthor" name="bkAuthor" th:value="${bkAuthor}" readonly="readonly" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>出版社</td>
+          <td><input type="text" id="reBkPress" name="bkPress" th:value="${bkPress}" readonly="readonly" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>图书编号</td>
+          <td><input type="text" name="bkCode" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>出版日期</td>
+          <td><input type="date" id="bkDatePress" name="bkDatePre" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>ISBN书号</td>
+          <td><input type="text" name="bkISBN" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>语言</td>
+          <td>
+            <select name="bkLanguage" >
+              <option value="0" selected="selected">0:中文</option>
+              <option value="1">1:英文</option>
+              <option value="2">2:日文</option>
+              <option value="3">3:俄文</option>
+              <option value="4">4:德文</option>
+              <option value="5">5:法文</option>
+            </select>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>页数</td>
+          <td><input type="text" name="bkPages" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>价格</td>
+          <td><input type="text" name="bkPrice" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>入馆日期</td>
+          <td><input type="date" id="bkDateIn" name="bkDateI" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>内容简介</td>
+          <td>
+            <textarea name="bkBrief"></textarea>
+          </td>
+        </tr>
+        <tr class="table-info">
+          <td>图书封面</td>
+          <td><input type="file" name="bkCov" /></td>
+        </tr>
+        <tr class="table-info">
+          <td>图书状态</td>
+          <td>
+            <select name="bkStatus" >
+              <option value="在馆" selected="selected">在馆</option>
+              <option value="借出">借出</option>
+              <option value="遗失">遗失</option>
+              <option value="变卖">变卖</option>
+              <option value="销毁">销毁</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" th:if="${findResult} and ${#lists.size(findResult)} == 0"><button>添加图书</button></td>
+        </tr>
+      </table>
+    </form>
+
+  </div>
+</div>
+</body>
+</html>
